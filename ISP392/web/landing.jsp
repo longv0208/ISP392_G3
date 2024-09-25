@@ -62,7 +62,7 @@
             </a>
             <div class="landing-page-child">
             </div>
-            <a class="landing-page-item flex bg-white hover:bg-slate-200 duration-200" href="login.jsp">
+            <a class="landing-page-item flex bg-white hover:bg-slate-200 duration-200" href="login">
                 <div class="ml-[28px] mt-[12px]">Login</div>
                 <svg class="ml-[10px] mt-[14px]" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M10.9728 2.75524H16.1088C17.4008 2.69559 18.6641 3.14724 19.6254 4.01241C20.5867 4.87757 21.1685 6.08659 21.2448 7.37762V16.6224C21.1685 17.9134 20.5867 19.1224 19.6254 19.9876C18.6641 20.8527 17.4008 21.3045 16.1088 21.2448H10.9728" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>

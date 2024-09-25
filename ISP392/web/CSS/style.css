@@ -1133,5 +1133,148 @@ html{
   	color: #000;
   	font-family: Inter;
 }
+.view-notifications-upload-container {
+  	position: absolute;
+  	top: 346px;
+  	left: 160px;
+  	font-size: 16px;
+  	line-height: 25px;
+  	font-weight: 500;
+  	color: #0c59ff;
+}
+.view-news-upload-container {
+  	position: absolute;
+  	top: 346px;
+  	left: 440px;
+  	font-size: 16px;
+  	line-height: 25px;
+  	font-weight: 500;
+  	color: #0c59ff;
+}
 
-
+.subject-settings {
+  	position: absolute;
+  	top: 0px;
+  	left: 0px;
+  	font-weight: 500;
+}
+.view-list-of-container {
+  	position: absolute;
+  	top: 37px;
+  	left: 0px;
+  	font-size: 16px;
+  	line-height: 25px;
+  	font-weight: 500;
+  	color: #0c59ff;
+  	text-align: left;
+}
+.registraion1 {
+  	position: absolute;
+  	top: 461px;
+  	left: 790px;
+  	width: 187px;
+  	height: 87px;
+  	text-align: center;
+}
+.import-list-of-container {
+  	position: absolute;
+  	top: 31px;
+  	left: 0px;
+  	font-size: 16px;
+  	line-height: 25px;
+  	font-weight: 500;
+  	color: #0c59ff;
+  	text-align: left;
+}
+.registraion2 {
+  	position: absolute;
+  	top: 346px;
+  	left: 790px;
+  	width: 261px;
+  	height: 56px;
+  	text-align: center;
+}
+.assign-lecturer {
+  	position: absolute;
+  	top: 38px;
+  	left: 0px;
+  	font-size: 16px;
+  	line-height: 25px;
+  	font-weight: 500;
+  	color: #0c59ff;
+  	text-align: left;
+  	display: inline-block;
+  	width: 364px;
+}
+.lecturer-management-parent {
+  	position: absolute;
+  	top: 346px;
+  	left: 1297px;
+  	width: 364px;
+  	height: 63px;
+  	text-align: center;
+}
+.application3 {
+  	position: absolute;
+  	top: 607px;
+  	left: 790px;
+  	width: 170px;
+  	height: 87px;
+  	text-align: center;
+}
+.view-list-of-container2 {
+  	position: absolute;
+  	top: 37px;
+  	left: 4px;
+  	font-size: 16px;
+  	line-height: 25px;
+  	font-weight: 500;
+  	color: #0c59ff;
+  	text-align: left;
+}
+.application1 {
+  	position: absolute;
+  	top: 753px;
+  	left: 790px;
+  	width: 222px;
+  	height: 87px;
+  	text-align: center;
+}
+.view-list-of-container3 {
+  	position: absolute;
+  	top: 37px;
+  	left: 0px;
+  	font-size: 16px;
+  	line-height: 25px;
+  	font-weight: 500;
+  	color: #0c59ff;
+}
+.report3 {
+  	position: absolute;
+  	top: 461px;
+  	left: 1297px;
+  	width: 162px;
+  	height: 87px;
+}
+.report1 {
+  	position: absolute;
+  	top: 607px;
+  	left: 1297px;
+  	width: 264px;
+  	height: 112px;
+}
+.report2 {
+  	position: absolute;
+  	top: 753px;
+  	left: 1297px;
+  	width: 167px;
+  	height: 87px;
+}
+.line-icon {
+  	position: absolute;
+  	top: 348px;
+  	left: 1257px;
+  	width: 2.1px;
+  	height: 500px;
+  	object-fit: contain;
+}
