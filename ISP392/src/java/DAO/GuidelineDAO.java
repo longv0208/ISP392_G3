@@ -17,7 +17,7 @@ public class GuidelineDAO extends DBContext {
 
     public List<Guidelines> getAllGuideline() {
         List<Guidelines> guidelinesList = new ArrayList<>();
-        String sql = "SELECT * FROM Guidelines";
+        String sql = "SELECT * FROM Guidelines ORDER BY [id] DESC";
 
         try (
                 PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
@@ -222,6 +222,42 @@ public class GuidelineDAO extends DBContext {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    public boolean createNewGuideline(int userId, String title, String category) {
+        String sql = "INSERT INTO Guidelines (user_id, title, create_date, category) VALUES (?, ?, GETDATE(), ?)";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, userId);       
+            ps.setString(2, title);      
+            ps.setString(3, category);   
+
+            int affectedRows = ps.executeUpdate();
+            return affectedRows > 0;    
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false; 
+        }
+    }
+    
+    
+     public static void main(String[] args) {
+        GuidelineDAO guidelineDAO = new GuidelineDAO();
+
+        // Example data for the new guideline
+        int userId = 1;  // Assuming there's a user with ID 1
+        String title = "New Guideline Title";
+        String category = "General";
+
+        // Call the method to create a new guideline
+        boolean isCreated = guidelineDAO.createNewGuideline(userId, title, category);
+
+        // Output the result
+        if (isCreated) {
+            System.out.println("New guideline created successfully.");
+        } else {
+            System.out.println("Failed to create new guideline.");
         }
     }
 

@@ -7,6 +7,7 @@ package Controller.guideline;
 import DAO.GuidelineDAO;
 import Model.GuideDetails;
 import Model.Guidelines;
+import Model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,6 +15,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -81,7 +83,7 @@ public class GuidelineController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-     @Override
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -151,6 +153,25 @@ public class GuidelineController extends HttpServlet {
                 request.setAttribute("error", "Create false!");
             }
 
+        } else if (action.equalsIgnoreCase("createGuideline")) {
+
+            // lấy thông tin admin 
+//            HttpSession session = request.getSession();
+//            User user = (User) session.getAttribute("user");
+// fix cứng tại chưa có login 
+            int userId = 1;
+            String title = request.getParameter("title");
+            String category = request.getParameter("category");
+
+            GuidelineDAO gDao = new GuidelineDAO();
+            boolean create = gDao.createNewGuideline(userId, title, category);
+            if (create) {
+                request.setAttribute("mess", "Create Success!");
+            } else {
+                request.setAttribute("error", "Create false!");
+            }
+        } else {
+            request.setAttribute("error", "false!");
         }
 
         doGet(request, response);

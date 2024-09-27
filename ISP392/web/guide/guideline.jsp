@@ -32,6 +32,62 @@
     <body>
         
         
+         <!-- Button to trigger the modal -->
+        <div>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createGuidelineModal">
+                Tạo mới hướng dẫn
+            </button>
+        </div>
+
+        <!-- Modal Structure -->
+        <div class="modal fade" id="createGuidelineModal" tabindex="-1" aria-labelledby="createGuidelineLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createGuidelineLabel">Tạo hưỡng dẫn</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Form inside the modal -->
+                        <form action="guideline" method="post" id="createGuidelineForm">
+                            <input name="action" value="createGuideline" hidden="">
+                            <div class="mb-3">
+                                <label for="guidelineTitle" class="form-label">Tiêu đề </label>
+                                <input name="title" type="text" class="form-control" id="guidelineTitle" placeholder="Nhập tiêu đề hướng dẫn">
+                            </div>
+                            <div class="mb-3">
+                                <label for="guidelineCategory" class="form-label">Thể loại</label>
+                                <input name="category" type="text" class="form-control" id="guidelineCategory" placeholder="Nhập danh mục">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        <button type="submit" class="btn btn-primary" onclick="submitForm()">Tạo </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            function submitForm() {
+                var title = $('#guidelineTitle').val();
+                var category = $('#guidelineCategory').val();
+
+                if (title && category) {
+                    console.log('Title:', title);
+                    console.log('Category:', category);
+                    $('#createGuidelineForm').submit(); 
+
+                    $('#createGuidelineModal').modal('hide');
+                } else {
+                    alert("Vui lòng điền vào cả tiêu đề và danh mục.");
+                }
+            }
+        </script>
+        
+        
+        
+        
         <!--Hiển thị thông báo lỗi hoặc mess -->
          <div class="container mt-5 alert-container">
             <!-- Success Message -->
@@ -78,7 +134,8 @@
 
         <!-- in ra table -->
         <div class="container mt-5">
-            <h2 class="text-center">List of Guidelines</h2>
+            <h2 class="text-center">Danh sách hướng dẫn </h2>
+            
             <table id="guideTable" class="table table-bordered mt-4">
                 <thead class="table-primary">
                     <tr>
