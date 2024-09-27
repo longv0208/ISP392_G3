@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+
             <file>file:/E:/NetBeans-22/ISP392_G3/ISP392_1/src/java/Controller/LoginGoogleHandler.java</file>
             <file>file:/E:/NetBeans-22/ISP392_G3/ISP392_1/src/java/Controller/HomeControl.java</file>
             <file>file:/E:/NetBeans-22/ISP392_G3/ISP392_1/web/login.jsp</file>
@@ -15,6 +16,7 @@
             <file>file:/E:/NetBeans-22/ISP392_G3/ISP392_1/web/landing.jsp</file>
             <file>file:/E:/NetBeans-22/ISP392_G3/ISP392_1/src/java/Controller/LoginControl.java</file>
             <file>file:/E:/NetBeans-22/ISP392_G3/ISP392_1/web/import.jsp</file>
+
         </group>
     </open-files>
 </project-private>
