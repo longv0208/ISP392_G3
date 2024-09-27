@@ -9,16 +9,8 @@ package Model;
  * @author khucx
  */
 public class User {
-
-    private int id;
-    private String username;
-    private String email;
-    private String password;
-    private String role;
-    private String status;
-
-    public User() {
-    }
+    int id;
+    String username,email,password,role,status;
 
     public User(int id, String username, String email, String password, String role, String status) {
         this.id = id;
@@ -81,5 +73,4 @@ public class User {
     public String toString() {
         return "User{" + "id=" + id + ", username=" + username + ", email=" + email + ", password=" + password + ", role=" + role + ", status=" + status + '}';
     }
-
 }
