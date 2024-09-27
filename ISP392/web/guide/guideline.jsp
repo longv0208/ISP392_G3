@@ -52,10 +52,10 @@
                             <td>${listGuideline.create_date}</td>
                             <td>${listGuideline.category}</td>
                             <td>
-                                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#guideModal${listGuideline.id}">
+                                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#guideModalGuideDetail${listGuideline.id}">
                                     View
                                 </button>
-                                <!-- button edit  -->
+                                <!-- button edit s -->
                                 <button class="btn btn-info"
                                         data-bs-toggle="modal"
                                         data-bs-target="#editModal"
@@ -96,6 +96,141 @@
             });
         </script>
 
+
+
+
+        <!-- Hiển thị popup cho detail  -->
+
+        <c:forEach items="${listGuideline}" var="listGuideline">
+
+            <!-- Modal for Guide 1 -->
+            <div class="modal fade" id="guideModalGuideDetail${listGuideline.id}" tabindex="-1" aria-labelledby="guideModalLabel1" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div>
+
+                                <h5 class="modal-title" id="guideModalLabel1">Detail: How to Register </h5>
+                                <!-- Create New Button -->
+                                <!-- Button to Open the Modal -->
+                                <!-- Button to Open the Modal -->
+                                <button type="button" class="btn btn-primary" id="openModal1${listGuideline.id}">
+                                    Create new
+                                </button>
+
+                                <!-- The Modal -->
+                                <div class="modal fade" id="myModal${listGuideline.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Create New Detail</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="guideline" method="post" id="detailForm${listGuideline.id}">
+
+                                                    <input value="${listGuideline.id}" name="guideline_id" hidden="">
+                                                    <input value="createDetail" name="action" hidden="">
+                                                    <div class="mb-3">
+                                                        <label for="step-number${listGuideline.id}" class="form-label">Step Number</label>
+                                                        <input type="number" class="form-control" id="step-number${listGuideline.id}" name="stepNumber" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="detailTitle${listGuideline.id}" class="form-label">Title</label>
+                                                        <input type="text" class="form-control" id="detailTitle${listGuideline.id}" name="detailTitle" required>
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label for="detailDescription${listGuideline.id}" class="form-label">Description</label>
+                                                        <textarea class="form-control" id="detailDescription${listGuideline.id}" name="detailDescription" rows="3" required></textarea>
+                                                    </div>
+
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary" form="detailForm${listGuideline.id}">Create</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <script>
+                                    $(document).ready(function () {
+                                        // Show the modal when the button is clicked
+                                        $(`#openModal1${listGuideline.id}`).on('click', function () {
+                                            $(`#myModal${listGuideline.id}`).modal('show');
+                                        });
+                                    });
+                                </script>
+
+
+
+
+
+
+
+
+
+
+                            </div>
+
+
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                        </div>
+                        <div class="modal-body">
+
+                            <c:forEach items="${listGuideDetail}" var="listGuideDetail">
+                                <c:if test="${listGuideDetail.guideline_id.id == listGuideline.id}">
+                                    <h3>${listGuideDetail.step_title}</h3>
+                                    <p>${listGuideDetail.description}</p>
+                                    <div class="d-flex align-items-center">
+                                        <button type="button" 
+                                                class="btn btn-info me-2"  
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#editDetailModal"
+                                                data-id="${listGuideDetail.id}"
+                                                data-title="${listGuideDetail.step_title}"
+                                                data-description="${listGuideDetail.description}">
+                                            Edit
+                                        </button>
+
+                                        <form action="guideline" method="post" onsubmit="return confirmDelete()">
+                                            <input value="deleteDetail" name="action" hidden="">
+                                            <input value="${listGuideDetail.id}" name="id" hidden="">
+                                            <button type="submit" class="btn btn-danger">
+                                                Delete
+                                            </button>
+                                        </form>
+                                    </div>
+
+                                    <script>
+                                        // Function to display a confirmation dialog
+                                        function confirmDelete() {
+                                            return confirm("Are you sure you want to delete this step?");
+                                        }
+                                    </script>
+
+
+
+
+
+                                </c:if>
+
+                            </c:forEach>
+
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </c:forEach>
+        <!-- kết thúc Hiển thị popup cho detail  -->
 
 
 
