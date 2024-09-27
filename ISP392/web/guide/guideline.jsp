@@ -132,6 +132,8 @@
         </script>
         <!-- kết thúc Hiển thị thông báo lỗi hoặc mess -->
 
+        
+        
         <!-- in ra table -->
         <div class="container mt-5">
             <h2 class="text-center">Danh sách hướng dẫn </h2>
@@ -205,7 +207,7 @@
 
         <c:forEach items="${listGuideline}" var="listGuideline">
 
-            <!-- Modal for Guide 1 -->
+            <!-- hiển thị ra detail  -->
             <div class="modal fade" id="guideModalGuideDetail${listGuideline.id}" tabindex="-1" aria-labelledby="guideModalLabel1" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
