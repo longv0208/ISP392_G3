@@ -81,10 +81,80 @@ public class GuidelineController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
+     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
+        String action = request.getParameter("action");
+
+        if (action.equalsIgnoreCase("editGuideline")) {
+            int id = Integer.parseInt(request.getParameter("id"));
+            String title = request.getParameter("title");
+            String category = request.getParameter("category");
+
+            GuidelineDAO guidelineDao = new GuidelineDAO();
+            boolean edit = guidelineDao.editGuidelineById(id, title, category);
+
+            if (edit) {
+                request.setAttribute("mess", "Update Success!");
+            } else {
+                request.setAttribute("error", "Update false!");
+            }
+        } else if (action.equalsIgnoreCase("delete")) {
+            int id = Integer.parseInt(request.getParameter("id"));
+            GuidelineDAO guidelineDao = new GuidelineDAO();
+            boolean delete = guidelineDao.deleteById(id);
+
+            if (delete) {
+                request.setAttribute("mess", "Delete Success!");
+            } else {
+                request.setAttribute("error", "Delete false!");
+            }
+
+        } else if (action.equalsIgnoreCase("editDetail")) {
+            int id = Integer.parseInt(request.getParameter("guideDetailId"));
+            String stepTitle = request.getParameter("stepTitle");
+            String stepDescription = request.getParameter("stepDescription");
+
+            GuidelineDAO guidelineDao = new GuidelineDAO();
+            boolean update = guidelineDao.updateGuideDetailById(id, stepTitle, stepDescription);
+            if (update) {
+                request.setAttribute("mess", "Update Success!");
+            } else {
+                request.setAttribute("error", "Update false!");
+            }
+
+        } else if (action.equalsIgnoreCase("deleteDetail")) {
+            int id = Integer.parseInt(request.getParameter("id"));
+
+            GuidelineDAO guidelineDao = new GuidelineDAO();
+            boolean delete = guidelineDao.deleteGuideDetailById(id);
+
+            if (delete) {
+                request.setAttribute("mess", "Delete Success!");
+            } else {
+                request.setAttribute("error", "Delete false!");
+            }
+
+        } else if (action.equalsIgnoreCase("createDetail")) {
+            GuidelineDAO guidelineDao = new GuidelineDAO();
+            int step_number = Integer.parseInt(request.getParameter("stepNumber"));
+            int id = Integer.parseInt(request.getParameter("guideline_id"));
+
+            String detailTitle = request.getParameter("detailTitle");
+            String detailDescription = request.getParameter("detailDescription");
+
+            boolean create = guidelineDao.createNewGuideDetail(id, step_number, detailDescription, detailTitle);
+            if (create) {
+                request.setAttribute("mess", "Create Success!");
+            } else {
+                request.setAttribute("error", "Create false!");
+            }
+
+        }
+
+        doGet(request, response);
+
     }
 
     /**

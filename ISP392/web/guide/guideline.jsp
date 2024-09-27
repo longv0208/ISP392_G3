@@ -30,6 +30,51 @@
         </style>
     </head>
     <body>
+        
+        
+        <!--Hiển thị thông báo lỗi hoặc mess -->
+         <div class="container mt-5 alert-container">
+            <!-- Success Message -->
+            <c:if test="${not empty mess}">
+                <div class="alert alert-success alert-dismissible fade show" role="alert" id="successAlert">
+                    ${mess}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </c:if>
+
+            <!-- Error Message -->
+            <c:if test="${not empty error}">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert" id="errorAlert">
+                    ${error}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </c:if>
+        </div>
+
+        <script>
+            function autoDismissAlert(alertId, timeout) {
+                setTimeout(function () {
+                    var alert = document.getElementById(alertId);
+                    if (alert) {
+                        var bsAlert = new bootstrap.Alert(alert);
+                        bsAlert.close();
+                    }
+                }, timeout);
+            }
+
+            // Dismiss success alert after 5 seconds (5000 ms)
+            var successAlert = document.getElementById('successAlert');
+            if (successAlert) {
+                autoDismissAlert('successAlert', 5000);
+            }
+
+            // Dismiss error alert after 5 seconds (5000 ms)
+            var errorAlert = document.getElementById('errorAlert');
+            if (errorAlert) {
+                autoDismissAlert('errorAlert', 5000);
+            }
+        </script>
+        <!-- kết thúc Hiển thị thông báo lỗi hoặc mess -->
 
         <!-- in ra table -->
         <div class="container mt-5">
@@ -38,10 +83,10 @@
                 <thead class="table-primary">
                     <tr>
                         <th>ID</th>
-                        <th>Title</th>
-                        <th>Create At</th>
-                        <th>Category</th>
-                        <th>Action</th>
+                        <th>Tiêu đề</th>
+                        <th>Ngày tạo</th>
+                        <th>Thể loại</th>
+                        <th>Hoạt động</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -53,7 +98,7 @@
                             <td>${listGuideline.category}</td>
                             <td>
                                 <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#guideModalGuideDetail${listGuideline.id}">
-                                    View
+                                    Xem Chi tiết
                                 </button>
                                 <!-- button edit s -->
                                 <button class="btn btn-info"
@@ -63,14 +108,14 @@
                                         data-title="${listGuideline.title}"
                                         data-create-date="${listGuideline.create_date}"
                                         data-category="${listGuideline.category}">
-                                    Edit
+                                    Sửa
                                 </button>
                                 <!-- Form for Deleting a Guideline -->
                                 <form id="deleteForm" action="guideline" method="post" class="d-inline">
                                     <input name="action" value="delete" hidden>
                                     <input name="id" value="${listGuideline.id}" hidden>
                                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModalGuideline">
-                                        Delete
+                                        Xóa
                                     </button>
                                 </form>
                             </td>
@@ -110,12 +155,12 @@
                         <div class="modal-header">
                             <div>
 
-                                <h5 class="modal-title" id="guideModalLabel1">Guideline Detail</h5>
+                                <h5 class="modal-title" id="guideModalLabel1">Hưỡng dẫn chi tiết:</h5>
                                 <!-- Create New Button -->
                                 <!-- Button to Open the Modal -->
                                 <!-- Button to Open the Modal -->
                                 <button type="button" class="btn btn-primary" id="openModal1${listGuideline.id}">
-                                    Create new
+                                    Tạo thêm bước 
                                 </button>
 
                                 <!-- The Modal -->
@@ -123,7 +168,7 @@
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Create New Step in Detail</h5>
+                                                <h5 class="modal-title" id="exampleModalLabel">Tạo bước trong hưỡng dẫn</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
@@ -132,16 +177,16 @@
                                                     <input value="${listGuideline.id}" name="guideline_id" hidden="">
                                                     <input value="createDetail" name="action" hidden="">
                                                     <div class="mb-3">
-                                                        <label for="step-number${listGuideline.id}" class="form-label">Step Number</label>
+                                                        <label for="step-number${listGuideline.id}" class="form-label">Bước số:</label>
                                                         <input type="number" class="form-control" id="step-number${listGuideline.id}" name="stepNumber" required>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="detailTitle${listGuideline.id}" class="form-label">Title</label>
+                                                        <label for="detailTitle${listGuideline.id}" class="form-label">Tiêu đề</label>
                                                         <input type="text" class="form-control" id="detailTitle${listGuideline.id}" name="detailTitle" required>
                                                     </div>
 
                                                     <div class="mb-3">
-                                                        <label for="detailDescription${listGuideline.id}" class="form-label">Description</label>
+                                                        <label for="detailDescription${listGuideline.id}" class="form-label">Miêu tả</label>
                                                         <textarea class="form-control" id="detailDescription${listGuideline.id}" name="detailDescription" rows="3" required></textarea>
                                                     </div>
 
@@ -289,7 +334,7 @@
                 let form;
 
                 // When the Delete button is clicked, store the form
-                $('[data-bs-target="#deleteModal"]').on('click', function () {
+                $('[data-bs-target="#deleteModalGuideline"]').on('click', function () {
                     form = $(this).closest('form');
                 });
 
