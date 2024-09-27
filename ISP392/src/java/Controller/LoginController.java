@@ -34,23 +34,29 @@ public class LoginController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String user = request.getParameter("username");
-        String pass = request.getParameter("password");
-        DAO dao = new DAO();
-        List<User> list = dao.getAllUser();
-        User login = dao.checkLogin(user, pass);
-        if (login == null) {
-            request.getSession().setAttribute("loginfail", "Username or password incorrect");
-            response.sendRedirect("login");
-        } else {
-            HttpSession session = request.getSession();
-            session.setAttribute("user", login.getId());
-            if (login.getRole().equals("student")) {
-                session.setAttribute("role", 1);
-            }else if (login.getRole().equals("lecturer")) {
-                session.setAttribute("role", 2);
-            }else session.setAttribute("role", 0);
-            response.sendRedirect("home");
+        try {
+            String user = request.getParameter("username");
+            String pass = request.getParameter("password");
+            DAO dao = new DAO();
+            List<User> list = dao.getAllUser();
+            User login = dao.checkLogin(user, pass);
+            if (login == null) {
+                request.getSession().setAttribute("loginfail", "Username or password incorrect");
+                response.sendRedirect("login");
+            } else {
+                HttpSession session = request.getSession();
+                session.setAttribute("user", login.getId());
+                if (login.getRole().equals("student")) {
+                    session.setAttribute("role", 1);
+                } else if (login.getRole().equals("lecturer")) {
+                    session.setAttribute("role", 2);
+                } else {
+                    session.setAttribute("role", 0);
+                }
+                response.sendRedirect("home");
+            }
+        } catch (Exception e) {
+            System.out.println("");
         }
     }
 

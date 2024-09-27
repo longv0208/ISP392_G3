@@ -6,11 +6,12 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.net.URLEncoder" %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Home</title>
         <link rel="stylesheet" href="CSS/style.css" />
         <link rel="stylesheet" href="./index.css" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap" />
@@ -20,6 +21,23 @@
         <script src="https://cdn.tailwindcss.com"></script>
         <link href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" rel="stylesheet"/>
         <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+        <script>
+            // Function to check for URL parameters
+            function getParameterByName(name) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(name);
+            }
+
+            // Check if the status parameter is "success" and show alert
+            window.onload = function () {
+                const status = getParameterByName('status');
+                if (status === 'success') {
+                    alert('Data has been successfully added to the database!');
+                    // Redirect to remove the status from URL after showing the alert
+                    window.location.href = 'homepage.jsp';
+                }
+            };
+        </script>
     </head>
     <body>
         <div class="homepage-student">
@@ -40,7 +58,7 @@
             </div>
             <div class="homepage-student-child1">
             </div>
-            <c:if test="${sessionScope.role != 0}">
+            <c:if test="${sessionScope.role == 1 && sessionScope.role == 2}">
                 <div class="notificationsthng-bo">Notifications/Thông báo</div>
             </c:if>
             <c:if test="${sessionScope.role == 0}">
@@ -50,14 +68,15 @@
                 <div class="profile-brief">
                     <div class="profile-brief-child">
                     </div>
-                    <div class="name"></div>
+                    <div class="name">${profile.full_name}</div>
                     <c:if test="${sessionScope.role == 1}">
-                        <div class="roll-number">SV${sessionScope.user}</div>
+                        <div class="roll-number">SV${rollnumber}</div>
                     </c:if>
                     <c:if test="${sessionScope.role == 2}">
-                        <div class="roll-number">GV${sessionScope.user}</div>
-                    </c:if>
-                    <img class="photo-4-1682302453807184190466-icon" alt="" src="photo-4-1682302453807184190466 1.png">
+                        <div class="roll-number">${lecturer_id}</div>
+                    </c:if>              
+
+                    <img class="photo-4-1682302453807184190466-icon" alt="" src="${profile.profile_picture}">
                 </div>
                 <a href="" class="profile-detail">
                     <div class="profile-detail-child">
@@ -74,16 +93,14 @@
                 <div class="absolute top-[100px] left-[20px] text-sm italic">logged in as admin</div>
             </c:if>
             <c:if test="${sessionScope.role != 0}">
-                <div class="group-parent">
-                    <div class="rectangle-parent">
-                        <div class="group-child">
-                        </div>
-                        <div class="noti-time">20/09/24 10:59</div>
-                        <div class="thng-bo-ti-sinh-vin-v-lc-wrapper">
-                            <a href="" class="thng-bo-ti hover:underline">Thông báo tới sinh viên về lịch học ngày 21/09, vì thời tiết mưa lớn khiến nhiều nơi ngập lụt </a>
-                        </div>
-                    </div>                  
-                </div> 
+                <ul class="group-parent">            
+                    <c:forEach var="notification" items="${notifications}">
+                        <li class="flex"> 
+                            <div class="w-[120px] h-[23px] text-[12px] text-center font-[inter] bg-[#d9d9d9] rounded-[10px] pt-1 mb-2 mr-3">${notification.upload_time}</div>
+                            <div class="w-[400px]full h-[23px] text-[12px] text-left font-[inter] mb-2 pt-1"><a class="hover:underline text-[#0c59ff]" href="url">${notification.title}</a></div>
+                        </li>          
+                    </c:forEach> 
+                </ul> 
             </c:if>
             <c:if test="${sessionScope.role == 0}">
                 <div class="view-notifications-upload-container">
@@ -131,7 +148,7 @@
                     <div class="import-list-of-container">
                         <ul class="view-notifications-upload-noti list-disc text-left">
                             <li class="hover:underline">
-                                <a href="">Import list of student</a></li>
+                                <a href="import.jsp">Import list of student</a></li>
                         </ul>
                     </div>
                 </div>

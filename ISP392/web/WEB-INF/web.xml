@@ -4,6 +4,14 @@
         <servlet-name>LoginControl</servlet-name>
         <servlet-class>Controller.LoginControl</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>imgHandler</servlet-name>
+        <servlet-class>Controller.imgHandler</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ImportControl</servlet-name>
+        <servlet-class>Controller.ImportControl</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LogOutControl</servlet-name>
         <url-pattern>/logout</url-pattern>
@@ -43,7 +51,15 @@
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/LoginController</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>imgHandler</servlet-name>
+        <url-pattern>/image</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ImportControl</servlet-name>
+        <url-pattern>/import</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>15</session-timeout>
-</session-config>
+    </session-config>
 </web-app>
