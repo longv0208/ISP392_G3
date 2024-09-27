@@ -61,7 +61,6 @@ public class DAO {
         }
         return list;
     }
-
     public User checkLogin(String username, String password) {
         List<User> list = getAllUser();
         for (User u : list) {
@@ -71,7 +70,6 @@ public class DAO {
         }
         return null;
     }
-
     public List<Notifications> getNotificationsByRole(String role) {
         List<Notifications> notifications = new ArrayList<>();
 
