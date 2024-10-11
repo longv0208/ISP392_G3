@@ -29,7 +29,7 @@ public class DashboardClassrooms extends HttpServlet {
 
         request.setAttribute("listClassrooms", listClassrooms);
 
-        request.getRequestDispatcher("Admin/dashboardClassrooms.jsp").forward(request, response);
+        request.getRequestDispatcher("dashboardClassrooms.jsp").forward(request, response);
     }
 
     @Override
@@ -47,10 +47,10 @@ public class DashboardClassrooms extends HttpServlet {
                 addClassroom(request, response);
                 response.sendRedirect("dashboardClassrooms");
                 break;
-//            case "edit":
-//                editClassroom(request, response);
-//                response.sendRedirect("dashboardClassrooms");  
-//                break;
+            case "edit":
+                editClassroom(request, response);
+                response.sendRedirect("dashboardClassrooms");  
+                break;
             case "delete":
                 deleteClassroom(request, response);
                 response.sendRedirect("dashboardClassrooms");
@@ -93,4 +93,5 @@ public class DashboardClassrooms extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
         classroomsDAO.deleteById(id);
     }
+    
 }

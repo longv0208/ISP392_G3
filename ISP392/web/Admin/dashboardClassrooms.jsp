@@ -102,7 +102,6 @@
                         <tr>
                             <th>ID</th>
                             <th>Classroom</th>
-                            <th>Lecture</th>
                             <th>Location</th>
                             <th>Capacity</th>
                             <th>Actions</th>
@@ -113,7 +112,6 @@
                         <tr>
                             <td>${classroom.getID()}</td>
                             <td>${classroom.getname()}</td>
-                            <td>${classroom.getlecture()}</td>
                             <td>${classroom.getlocation()}</td>
                             <td>${classroom.getcapacity()}</td>
                             <td>

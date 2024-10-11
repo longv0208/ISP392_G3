@@ -92,5 +92,9 @@ public class ClassroomsDAO extends DBContext {
             return 0;
         }
     }
-
+ public static void main(String[] args) {
+        ClassroomsDAO dao = new ClassroomsDAO();
+        dao.findAll();
+        System.out.println(dao);
+    }
 }

@@ -30,5 +30,4 @@ public class Classrooms {
     private String name;
     private int capacity;
     private String location;
-    private String lecture;
 }
