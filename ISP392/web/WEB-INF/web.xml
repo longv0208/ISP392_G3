@@ -12,6 +12,10 @@
         <servlet-name>ImportControl</servlet-name>
         <servlet-class>Controller.ImportControl</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DashboardPayment</servlet-name>
+        <servlet-class>Controller.Admin.DashboardPayment</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LogOutControl</servlet-name>
         <url-pattern>/logout</url-pattern>
@@ -66,6 +70,10 @@
     <servlet-mapping>
         <servlet-name>DashboardClassrooms</servlet-name>
         <url-pattern>/Admin/dashboardClassrooms</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DashboardPayment</servlet-name>
+        <url-pattern>/dashboardPament</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>15</session-timeout>
