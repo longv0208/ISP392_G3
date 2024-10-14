@@ -4,9 +4,16 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/E:/FA24/ISP392_G3/ISP392/src/java/DAO/ClassroomsDAO.java</file>
+            <file>file:/E:/FA24/ISP392_G3/ISP392/src/java/Controller/Student/DashboardPayment.java</file>
+            <file>file:/E:/FA24/ISP392_G3/ISP392/web/Admin/deleteClassroomModal.jsp</file>
+            <file>file:/E:/FA24/ISP392_G3/ISP392/web/homepage.jsp</file>
+            <file>file:/E:/FA24/ISP392_G3/ISP392/web/WEB-INF/web.xml</file>
+            <file>file:/E:/FA24/ISP392_G3/ISP392/web/Student/dashboardPayment.jsp</file>
             <file>file:/E:/FA24/ISP392_G3/ISP392/src/java/Model/Classrooms.java</file>
             <file>file:/E:/FA24/ISP392_G3/ISP392/web/Admin/dashboardClassrooms.jsp</file>
             <file>file:/E:/FA24/ISP392_G3/ISP392/src/java/Controller/Admin/DashboardClassrooms.java</file>
+            <file>file:/E:/FA24/ISP392_G3/ISP392/src/java/Model/Payments.java</file>
+            <file>file:/E:/FA24/ISP392_G3/ISP392/src/java/DAO/PaymentDAO.java</file>
         </group>
     </open-files>
 </project-private>

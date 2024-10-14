@@ -14,7 +14,7 @@
     </servlet>
     <servlet>
         <servlet-name>DashboardPayment</servlet-name>
-        <servlet-class>Controller.Admin.DashboardPayment</servlet-class>
+        <servlet-class>Controller.Student.DashboardPayment</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LogOutControl</servlet-name>
