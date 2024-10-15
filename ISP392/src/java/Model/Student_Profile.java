@@ -46,7 +46,7 @@ public class Student_Profile {
         this.wallet = wallet;
     }
 
-    public Student_Profile(int student_id, int major_id, String year_of_study) {
+    public Student_Profile(Integer student_id1, int student_id, String year_of_study, int major_id) {
         this.student_id = student_id;
         this.major_id = major_id;
         this.year_of_study = year_of_study;

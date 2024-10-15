@@ -71,7 +71,7 @@ public class VNPResponeController extends HttpServlet {
                 long updatedWallet = studentProfile.getWallet() + newAmount.longValue();
 
                 // Cập nhật số dư ví trong Student_Profile
-                studentProfile.setWallet(updatedWallet);
+                studentProfile.setWallet((int) updatedWallet);
 
                 // Cập nhật lại thông tin trong session
                 session.setAttribute("studentProfile", studentProfile);

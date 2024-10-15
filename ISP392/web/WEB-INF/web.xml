@@ -13,8 +13,12 @@
         <servlet-class>Controller.ImportControl</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>DashboardPayment</servlet-name>
-        <servlet-class>Controller.Student.DashboardPayment</servlet-class>
+        <servlet-name>DashboardPayments</servlet-name>
+        <servlet-class>Controller.Student.DashboardPayments</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>VNPayServlet</servlet-name>
+        <servlet-class>VNPay.VNPayServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LogOutControl</servlet-name>
@@ -72,8 +76,12 @@
         <url-pattern>/Admin/dashboardClassrooms</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>DashboardPayment</servlet-name>
-        <url-pattern>/dashboardPament</url-pattern>
+        <servlet-name>DashboardPayments</servlet-name>
+        <url-pattern>/dashboardPaments</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VNPayServlet</servlet-name>
+        <url-pattern>/VNPayServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>15</session-timeout>

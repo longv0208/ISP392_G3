@@ -126,12 +126,13 @@
             <!-- Balance card -->
             <div class="balance-card">
                 Current Account Balance: 
-                <fmt:formatNumber value="${studentProfile.wallet_balance}" minFractionDigits="0" /> VND
+                <fmt:formatNumber value="${studentProfile.wallet}" minFractionDigits="0" /> VND
             </div>
 
             <!-- Deposit form -->
             <div class="deposit-form">
-                <form action="VNPayServlet" method="post" id="moneyForm">
+                <!-- Form to submit to VNPayServlet for processing -->
+                <form action="${pageContext.request.contextPath}/VNPayServlet" method="post" id="moneyForm">
                     <table class="table table-bordered">
                         <thead>
                             <tr>
@@ -150,24 +151,6 @@
                                     <p>Maximum amount: 500,000,000 VND</p>
                                 </td>
                             </tr>
-<!--                            <tr>
-                                <td>
-                                    <label for="preset-amounts">Select a Preset Amount:</label>
-                                    <select class="form-select form-control" id="preset-amounts">
-                                        <option value="" selected>Select amount</option>
-                                        <option value="10000">10,000 VND</option>
-                                        <option value="20000">20,000 VND</option>
-                                        <option value="50000">50,000 VND</option>
-                                        <option value="100000">100,000 VND</option>
-                                        <option value="200000">200,000 VND</option>
-                                        <option value="500000">500,000 VND</option>
-                                        <option value="1000000">1,000,000 VND</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <p>Maximum amount: 500,000,000 VND</p>
-                                </td>
-                            </tr>-->
                             <tr>
                                 <td>
                                     <button type="submit" class="btn-primary">Add Money</button>
@@ -189,15 +172,5 @@
 
         <!-- Bootstrap JS -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-
-        <!-- Script to sync preset amounts with input field -->
-        <script>
-            document.getElementById('preset-amounts').addEventListener('change', function () {
-                var selectedAmount = this.value;
-                if (selectedAmount) {
-                    document.getElementById('amount').value = selectedAmount;
-                }
-            });
-        </script>
     </body>
 </html>
