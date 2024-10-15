@@ -320,7 +320,7 @@
                     <div class="registrationng-k">Finance/Tài chính</div>
                     <div class="pay-paid-items-container">
                         <ul class="register-courses-ng-k-mn list-disc">
-                            <li class="register-courses hover:underline"><a href="dashboardPayment.jsp">Pay paid items / Thanh toán các khoản nộp</a></li>
+                            <li class="register-courses hover:underline"><a href="dashboardPayment">Pay paid items / Thanh toán các khoản nộp</a></li>
                             <li><a href="" class="hover:underline">Transaction history / Lịch sử giao dịch</a></li>
                         </ul>
                     </div>
