@@ -114,25 +114,21 @@
                     <table id="paymentTable" class="table table-striped table-bordered">
                         <thead>
                             <tr>
-                                <th>No</th>
-                                <th>Payment type</th>
+                                <th>ID</th>
+                                <th>Fee type</th>
                                 <th>Amount (VND)</th>
                                 <th>Select</th>
                             </tr>
                         </thead>
                         <tbody>
+                        <c:forEach items="${listPayments}" var="p" varStatus="status">
                             <tr>
-                                <td>1</td>
-                                <td>Dorm fee</td>
-                                <td>2.000.000</td>
+                                <td>${p.getID()}</td>
+                                <td>${p.getpaymentType()}</td>
+                                <td>${p.getamount()}</td>
                                 <td><input type="checkbox" class="checkbox" name="payment" value="2000000" onclick="updateTotal()"></td>
                             </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Next semester tuition</td>
-                                <td>20.000.000</td>
-                                <td><input type="checkbox" class="checkbox" name="payment" value="20000000" onclick="updateTotal()"></td>
-                            </tr>
+                        </c:forEach>
                         </tbody>
                     </table>
                 </div>
@@ -152,25 +148,25 @@
 
         <!-- DataTable initialization -->
         <script>
-            $(document).ready(function () {
-                $('#paymentTable').DataTable({
-                    "paging": false, // Disable pagination
-                    "searching": false, // Disable search
-                    "ordering": false, // Disable ordering
-                    "info": false       // Disable page info
-                });
-            });
+                                    $(document).ready(function () {
+                                        $('#paymentTable').DataTable({
+                                            "paging": false, // Disable pagination
+                                            "searching": false, // Disable search
+                                            "ordering": false, // Disable ordering
+                                            "info": false       // Disable page info
+                                        });
+                                    });
 
-            // Update total payable amount based on selected items
-            function updateTotal() {
-                let checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-                let total = 0;
-                checkboxes.forEach((checkbox) => {
-                    total += parseInt(checkbox.value);
-                });
-                document.getElementById('total').innerText = total.toLocaleString();
-                document.getElementById('payButton').disabled = total === 0;
-            }
+                                    // Update total payable amount based on selected items
+                                    function updateTotal() {
+                                        let checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+                                        let total = 0;
+                                        checkboxes.forEach((checkbox) => {
+                                            total += parseInt(checkbox.value);
+                                        });
+                                        document.getElementById('total').innerText = total.toLocaleString();
+                                        document.getElementById('payButton').disabled = total === 0;
+                                    }
         </script>
     </body>
 </html>

@@ -4,7 +4,9 @@
  */
 package Controller.Student;
 
+import DAO.PaymentsDAO;
 import Model.Classrooms;
+import Model.Payments;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -19,15 +21,8 @@ import java.util.List;
  */
 public class DashboardPayment extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    private PaymentsDAO paymentsDAO = new PaymentsDAO();
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -60,6 +55,7 @@ public class DashboardPayment extends HttpServlet {
        request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
+        List<Payments> listPayments =  paymentsDAO.findAll();
 
         request.getRequestDispatcher("Student/dashboardPayment.jsp").forward(request, response);
     }
