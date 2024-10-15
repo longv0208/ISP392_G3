@@ -126,7 +126,7 @@
             <!-- Balance card -->
             <div class="balance-card">
                 Current Account Balance: 
-                <fmt:formatNumber value="${requestScope.total.getWallet()}" minFractionDigits="0" /> VND
+                <fmt:formatNumber value="${studentProfile.wallet_balance}" minFractionDigits="0" /> VND
             </div>
 
             <!-- Deposit form -->
@@ -147,9 +147,10 @@
                                 </td>
                                 <td>
                                     <p>Minimum amount: 5,000 VND</p>
+                                    <p>Maximum amount: 500,000,000 VND</p>
                                 </td>
                             </tr>
-                            <tr>
+<!--                            <tr>
                                 <td>
                                     <label for="preset-amounts">Select a Preset Amount:</label>
                                     <select class="form-select form-control" id="preset-amounts">
@@ -166,7 +167,7 @@
                                 <td>
                                     <p>Maximum amount: 500,000,000 VND</p>
                                 </td>
-                            </tr>
+                            </tr>-->
                             <tr>
                                 <td>
                                     <button type="submit" class="btn-primary">Add Money</button>

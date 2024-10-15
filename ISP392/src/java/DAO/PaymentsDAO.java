@@ -6,6 +6,7 @@ package DAO;
 
 import Context.DBContext;
 import Model.Payments;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -52,6 +53,32 @@ public class PaymentsDAO extends DBContext {
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void addMoney(int userID, BigDecimal amount) throws SQLException {
+        String sql = "UPDATE Wallet SET balance = balance + ? WHERE userID = ?";
+
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setBigDecimal(1, amount);
+            statement.setInt(2, userID);
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Error while adding money to wallet.");
+        }
+    }
+
+    public void insertPayment(Payments payment) throws SQLException {
+        String sql = "INSERT INTO Payments (userID, amount, paymentDate, paymentType) VALUES (?, ?, ?, ?)";
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, payment.getUserID());
+            statement.setInt(2, payment.getAmount());
+            statement.setDate(3, new java.sql.Date(payment.getPaymentDate().getTime()));
+            statement.setString(4, payment.getPaymentType());
+            statement.executeUpdate();
         }
     }
 

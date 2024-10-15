@@ -9,8 +9,10 @@ package Model;
  * @author khucx
  */
 public class Student_Profile {
-    int student_id,major_id;
+
+    int student_id, major_id;
     String year_of_study;
+    int wallet;
 
     public int getStudent_id() {
         return student_id;
@@ -36,19 +38,28 @@ public class Student_Profile {
         this.year_of_study = year_of_study;
     }
 
+    public int getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(int wallet) {
+        this.wallet = wallet;
+    }
+
     public Student_Profile(int student_id, int major_id, String year_of_study) {
         this.student_id = student_id;
         this.major_id = major_id;
         this.year_of_study = year_of_study;
+        this.wallet = wallet;
     }
 
     @Override
     public String toString() {
-        return "Student_Profile{" + "student_id=" + student_id + ", major_id=" + major_id + ", year_of_study=" + year_of_study + '}';
+        return "Student_Profile{" + "student_id=" + student_id + ", major_id=" + major_id + ", year_of_study=" + year_of_study + ", wallet=" + wallet + '}';
     }
 
     public void add(Student_Profile studentProfile) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
 }
