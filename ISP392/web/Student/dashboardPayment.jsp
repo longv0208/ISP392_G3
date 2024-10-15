@@ -109,7 +109,10 @@
             </div>
 
             <!-- Payment Table -->
-            <form action="processPayment.jsp" method="post">
+            <form action="dashboardPayment" method="post">
+                <input type="hidden" name="action" value="pay">
+                <input type="hidden" id="totalAmount" name="totalAmount" value="0"> <!-- ?n t?ng s? ti?n -->
+
                 <div class="table-responsive">
                     <table id="paymentTable" class="table table-striped table-bordered">
                         <thead>
@@ -121,12 +124,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                        <c:forEach items="${listPayments}" var="p" varStatus="status">
+                        <c:forEach items="${listPayments}" var="p">
                             <tr>
-                                <td>${p.getID()}</td>
-                                <td>${p.getpaymentType()}</td>
-                                <td>${p.getamount()}</td>
-                                <td><input type="checkbox" class="checkbox" name="payment" value="2000000" onclick="updateTotal()"></td>
+                                <td>${p.ID}</td>
+                                <td>${p.paymentType}</td>
+                                <td>${p.amount}</td>
+                                <td><input type="checkbox" class="checkbox" name="payment" value="${p.amount}" onclick="updateTotal()"></td>
                             </tr>
                         </c:forEach>
                         </tbody>
@@ -141,6 +144,7 @@
                 <!-- Pay Button -->
                 <button type="submit" class="pay-btn" id="payButton" disabled>Pay choosed items</button>
             </form>
+
         </div>
 
         <!-- Bootstrap JS -->
@@ -158,6 +162,7 @@
                                     });
 
                                     // Update total payable amount based on selected items
+                                    // Update total payable amount based on selected items
                                     function updateTotal() {
                                         let checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
                                         let total = 0;
@@ -165,8 +170,10 @@
                                             total += parseInt(checkbox.value);
                                         });
                                         document.getElementById('total').innerText = total.toLocaleString();
+                                        document.getElementById('totalAmount').value = total; // C?p nh?t t?ng s? ti?n vào input ?n
                                         document.getElementById('payButton').disabled = total === 0;
                                     }
+
         </script>
     </body>
 </html>

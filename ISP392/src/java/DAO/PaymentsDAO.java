@@ -33,7 +33,6 @@ public class PaymentsDAO extends DBContext {
                 payment.setAmount(rs.getInt("amount"));
                 payment.setPaymentDate(rs.getDate("paymentDate"));
                 payment.setPaymentType(rs.getString("paymentType"));
-                payment.setStatus(rs.getString("status"));
                 payments.add(payment);
             }
         } catch (SQLException e) {
@@ -42,4 +41,18 @@ public class PaymentsDAO extends DBContext {
 
         return payments;
     }
+
+    public void recordPayment(int userID, int amount) {
+        String sql = "INSERT INTO Payments (userID, amount, paymentDate, paymentType) VALUES (?, ?, NOW(), 'online')";
+
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setInt(1, userID);
+            statement.setInt(2, amount);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
