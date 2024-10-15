@@ -105,13 +105,13 @@
 
             <!-- Account balance display -->
             <div class="account-balance">
-                Account balance:
+                Account balance: <fmt:formatNumber value="${studentProfile.wallet}" minFractionDigits="0" /> VND
             </div>
 
             <!-- Payment Table -->
-            <form action="dashboardPayment" method="post">
+            <form action="${pageContext.request.contextPath}/dashboardPayments" method="post">
                 <input type="hidden" name="action" value="pay">
-                <input type="hidden" id="totalAmount" name="totalAmount" value="0"> <!-- ?n t?ng s? ti?n -->
+                <input type="hidden" id="totalAmount" name="totalAmount" value="0"> <!-- Hidden total amount -->
 
                 <div class="table-responsive">
                     <table id="paymentTable" class="table table-striped table-bordered">
@@ -138,7 +138,7 @@
 
                 <!-- Total Amount -->
                 <div class="total-amount">
-                    Total amount payable: <span id="total">0</span> VND
+                    Total amount: <span id="total">0</span> VND
                 </div>
 
                 <!-- Pay Button -->
@@ -161,7 +161,6 @@
                                         });
                                     });
 
-                                    // Update total payable amount based on selected items
                                     // Update total payable amount based on selected items
                                     function updateTotal() {
                                         let checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');

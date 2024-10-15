@@ -15,13 +15,12 @@ import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
 
 /**
- *
- * @author FPTSHOP
+ * Servlet to handle payments and dashboard display
  */
 public class DashboardPayments extends HttpServlet {
 
     private PaymentsDAO paymentsDAO = new PaymentsDAO();
-    private ProfileDAO profileDAO = new ProfileDAO(); // Sử dụng ProfileDAO để lấy Student_Profile
+    private ProfileDAO profileDAO = new ProfileDAO(); // Use ProfileDAO to get Student_Profile
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -30,10 +29,10 @@ public class DashboardPayments extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
 
-        // Lấy tất cả các khoản thanh toán từ DAO
+        // Retrieve all payment items from DAO
         List<Payments> listPayments = paymentsDAO.findAll();
 
-        // Đặt danh sách thanh toán vào request và chuyển tiếp đến JSP
+        // Set the list of payments as an attribute to be displayed on JSP
         request.setAttribute("listPayments", listPayments);
         request.getRequestDispatcher("Student/dashboardPayment.jsp").forward(request, response);
     }
@@ -41,25 +40,23 @@ public class DashboardPayments extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String action = request.getParameter("action") != null
-                ? request.getParameter("action")
-                : "";
+        String action = request.getParameter("action") != null ? request.getParameter("action") : "";
         switch (action) {
             case "pay":
                 pay(request, response);
                 break;
             default:
-                throw new AssertionError();
+                throw new ServletException("Unknown action: " + action);
         }
     }
 
-    // Phương thức xử lý thanh toán
+    // Method to handle payment action
     private void pay(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
 
         if (user == null) {
-            // Chuyển hướng đến trang đăng nhập nếu người dùng chưa đăng nhập
+            // Redirect to login page if the user is not logged in
             response.sendRedirect(request.getContextPath() + "/authen?action=login");
             return;
         }
@@ -67,43 +64,42 @@ public class DashboardPayments extends HttpServlet {
         int userID = user.getId();
         PaymentsDAO paymentsDAO = new PaymentsDAO();
 
-        // Lấy thông tin Student_Profile từ session hoặc từ ProfileDAO
+        // Get Student_Profile from session or ProfileDAO
         Student_Profile studentProfile = (Student_Profile) session.getAttribute("studentProfile");
         if (studentProfile == null) {
             studentProfile = profileDAO.getStudentProfile(session);
         }
 
-        // Lấy tổng số tiền cần thanh toán từ request
+        // Retrieve the total amount from the form submission
         int totalAmount = Integer.parseInt(request.getParameter("totalAmount"));
 
-        // Lấy số dư ví từ Student_Profile
-        int wallet = studentProfile.getWallet();  // Lấy số dư ví từ Student_Profile
+        // Retrieve the wallet balance from Student_Profile
+        int wallet = studentProfile.getWallet();
 
         if (wallet >= totalAmount) {
-            // Nếu số dư đủ, trừ tiền và cập nhật ví
-            studentProfile.setWallet(wallet - totalAmount);  // Cập nhật số dư ví
+            // If balance is sufficient, deduct the amount and update the wallet
+            studentProfile.setWallet(wallet - totalAmount);
 
-            // Ghi lại lịch sử giao dịch
+            // Record the payment in the database
             paymentsDAO.recordPayment(userID, totalAmount);
 
-            // Cập nhật lại thông tin Student_Profile trong session
+            // Update the session with the new wallet balance
             session.setAttribute("studentProfile", studentProfile);
 
-            // Cập nhật vào cơ sở dữ liệu, bọc bên trong try-catch
+            // Update the database with the new wallet balance
             try {
                 profileDAO.updateStudentProfile(studentProfile);
             } catch (SQLException e) {
-                e.printStackTrace(); // In ngoại lệ ra console, có thể ghi log hoặc xử lý thêm nếu cần
-                // Bạn cũng có thể đặt một thông báo lỗi hoặc chuyển hướng đến trang lỗi tùy chọn
+                e.printStackTrace();
                 request.setAttribute("error", "Failed to update wallet information.");
                 request.getRequestDispatcher("Student/dashboardPayment.jsp").forward(request, response);
                 return;
             }
 
-            // Chuyển hướng về trang thành công
+            // Redirect to success page
             response.sendRedirect(request.getContextPath() + "/Student/dashboardPayment.jsp?success=true");
         } else {
-            // Nếu số dư không đủ, thông báo lỗi
+            // If balance is insufficient, display an error
             request.setAttribute("error", "Your wallet balance is insufficient to complete the payment.");
             request.getRequestDispatcher("Student/dashboardPayment.jsp").forward(request, response);
         }
@@ -111,6 +107,6 @@ public class DashboardPayments extends HttpServlet {
 
     @Override
     public String getServletInfo() {
-        return "DashboardPayment Servlet";
+        return "Handles payments on the student dashboard";
     }
 }

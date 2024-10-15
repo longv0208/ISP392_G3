@@ -1,27 +1,40 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+// TransactionsDAO.java
 package DAO;
 
-import Model.Transactions;
 import Context.DBContext;
+import Model.Transactions;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TransactionsDAO extends DBContext {
 
-    // Thêm một giao dịch mới vào database
-    public void insertTransaction(Transactions transaction) throws SQLException {
-        String sql = "INSERT INTO Transactions (user_id, amount, transaction_type, description, transaction_date) VALUES (?, ?, ?, ?, ?)";
-        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, transaction.getUser_id());
-            statement.setInt(2, transaction.getAmount());
-            statement.setString(3, transaction.getTransaction_type());
-            statement.setString(4, transaction.getDescription());
-            statement.setString(5, transaction.getTransaction_date()); // Định dạng là yyyy-MM-dd HH:mm:ss
-            statement.executeUpdate();
+    // Phương thức lấy danh sách giao dịch theo user_id
+    public List<Transactions> getTransactionsByUserId(int userId) {
+        List<Transactions> transactionList = new ArrayList<>();
+
+        String sql = "SELECT * FROM Transactions WHERE user_id = ?";
+        
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Transactions transaction = new Transactions(
+                        rs.getInt("id"),
+                        rs.getInt("user_id"),
+                        rs.getInt("amount"),
+                        rs.getString("transaction_type"),
+                        rs.getString("description"),
+                        rs.getString("transaction_date")
+                );
+                transactionList.add(transaction);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return transactionList;
     }
 }
