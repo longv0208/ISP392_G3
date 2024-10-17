@@ -105,7 +105,7 @@
 
             <!-- Account balance display -->
             <div class="account-balance">
-                Account balance: <fmt:formatNumber value="${studentProfile.wallet}" minFractionDigits="0" /> VND
+                Account balance: 0<fmt:formatNumber value="${studentProfile.wallet}" minFractionDigits="0" /> VND
             </div>
 
             <!-- Payment Table -->
@@ -126,9 +126,9 @@
                         <tbody>
                         <c:forEach items="${listPayments}" var="p">
                             <tr>
-                                <td>${p.ID}</td>
-                                <td>${p.paymentType}</td>
-                                <td>${p.amount}</td>
+                                <td>${p.getID()}</td>
+                                <td>${p.paymentType()}</td>
+                                <td>${p.amount()}</td>
                                 <td><input type="checkbox" class="checkbox" name="payment" value="${p.amount}" onclick="updateTotal()"></td>
                             </tr>
                         </c:forEach>
@@ -138,7 +138,7 @@
 
                 <!-- Total Amount -->
                 <div class="total-amount">
-                    Total amount: <span id="total">0</span> VND
+                    Total amount:<span id="total">0</span> VND
                 </div>
 
                 <!-- Pay Button -->
@@ -150,7 +150,7 @@
         <!-- Bootstrap JS -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
-        <!-- DataTable initialization -->
+
         <script>
                                     $(document).ready(function () {
                                         $('#paymentTable').DataTable({
@@ -163,16 +163,25 @@
 
                                     // Update total payable amount based on selected items
                                     function updateTotal() {
-                                        let checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+                                        let checkboxes = document.querySelectorAll('input[type="checkbox"]');
                                         let total = 0;
-                                        checkboxes.forEach((checkbox) => {
-                                            total += parseInt(checkbox.value);
-                                        });
-                                        document.getElementById('total').innerText = total.toLocaleString();
-                                        document.getElementById('totalAmount').value = total; // C?p nh?t t?ng s? ti?n vào input ?n
-                                        document.getElementById('payButton').disabled = total === 0;
-                                    }
+                                        let isAnyChecked = false;
 
+                                        checkboxes.forEach((checkbox) => {
+                                            if (checkbox.checked && !isNaN(checkbox.value)) {
+                                                total += parseInt(checkbox.value);
+                                                isAnyChecked = true; // At least one item is selected
+                                            }
+                                        });
+
+                                        document.getElementById('total').innerText = total.toLocaleString();
+                                        document.getElementById('totalAmount').value = total;
+
+                                        // Disable the Pay button if no items are selected or total is zero
+                                        document.getElementById('payButton').disabled = !isAnyChecked || total === 0;
+                                    }
         </script>
+
+
     </body>
 </html>

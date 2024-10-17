@@ -32,7 +32,6 @@ public class PaymentsDAO extends DBContext {
                 payment.setID(rs.getInt("ID"));
                 payment.setUserID(rs.getInt("userID"));
                 payment.setAmount(rs.getInt("amount"));
-                payment.setPaymentDate(rs.getDate("paymentDate"));
                 payment.setPaymentType(rs.getString("paymentType"));
                 payments.add(payment);
             }

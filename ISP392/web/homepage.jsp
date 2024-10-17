@@ -321,7 +321,7 @@
                     <div class="pay-paid-items-container">
                         <ul class="register-courses-ng-k-mn list-disc">
                             <li class="register-courses hover:underline">
-                                <a href="Student/dashboardPayments.jsp">Pay paid items / Thanh toán các khoản nộp</a>
+                                <a href="dashboardPaments">Pay paid items / Thanh toán các khoản nộp</a>
                             </li>
 
                             <li><a href="Student/transactionHistory.jsp" class="hover:underline">Transaction history / Lịch sử giao dịch</a></li>

@@ -20,7 +20,7 @@ import java.sql.SQLException;
 public class DashboardPayments extends HttpServlet {
 
     private PaymentsDAO paymentsDAO = new PaymentsDAO();
-    private ProfileDAO profileDAO = new ProfileDAO(); // Use ProfileDAO to get Student_Profile
+    private ProfileDAO profileDAO = new ProfileDAO();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -29,11 +29,29 @@ public class DashboardPayments extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
 
-        // Retrieve all payment items from DAO
+        HttpSession session = request.getSession();
+        int idUser = (Integer) session.getAttribute("user");
+
+        if (idUser < 0) {
+            // Nếu người dùng chưa đăng nhập, chuyển hướng đến trang đăng nhập
+            response.sendRedirect(request.getContextPath() + "/authen?action=login");
+            return;
+        }
+
+        // Lấy thông tin Student_Profile từ session hoặc từ ProfileDAO
+        Student_Profile studentProfile = (Student_Profile) session.getAttribute("studentProfile");
+        if (studentProfile == null) {
+            studentProfile = profileDAO.getStudentProfile(session);
+            session.setAttribute("studentProfile", studentProfile);  // Lưu vào session nếu cần dùng lại
+        }
+
         List<Payments> listPayments = paymentsDAO.findAll();
 
-        // Set the list of payments as an attribute to be displayed on JSP
         request.setAttribute("listPayments", listPayments);
+
+        int wallet = studentProfile.getWallet();
+        request.setAttribute("wallet", wallet);  
+
         request.getRequestDispatcher("Student/dashboardPayment.jsp").forward(request, response);
     }
 

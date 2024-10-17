@@ -94,7 +94,9 @@ public class ClassroomsDAO extends DBContext {
     }
  public static void main(String[] args) {
         ClassroomsDAO dao = new ClassroomsDAO();
-        dao.findAll();
-        System.out.println(dao);
+        dao.findAll().stream().forEach(item -> {
+            System.out.println(item);
+        });
+                
     }
 }
