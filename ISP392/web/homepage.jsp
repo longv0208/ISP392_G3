@@ -324,7 +324,7 @@
                                 <a href="dashboardPaments">Pay paid items / Thanh toán các khoản nộp</a>
                             </li>
 
-                            <li><a href="Student/transactionHistory.jsp" class="hover:underline">Transaction history / Lịch sử giao dịch</a></li>
+                            <li><a href="transactionHistory" class="hover:underline">Transaction history / Lịch sử giao dịch</a></li>
                             <li class="register-courses hover:underline">
                                 <a href="Student/addMoney.jsp">Add Money / Nạp tiền</a>
                             </li>

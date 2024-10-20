@@ -52,7 +52,7 @@ public class DashboardPayments extends HttpServlet {
         int wallet = studentProfile.getWallet();
         request.setAttribute("wallet", wallet);  
 
-        request.getRequestDispatcher("Student/dashboardPayment.jsp").forward(request, response);
+        request.getRequestDispatcher("Student/dashboardPayments.jsp").forward(request, response);
     }
 
     @Override
