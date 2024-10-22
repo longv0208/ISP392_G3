@@ -56,6 +56,10 @@
             <div class="rectangle-div">
             </div>
             <div class="homepage-student-child1">
+
+                <c:if test="${sessionScope.role == 1 && sessionScope.role == 2}">
+                    <div class="notificationsthng-bo">Notifications/Thông báo</div>
+                </c:if> 
             </div>
             <c:if test="${sessionScope.role == 1 && sessionScope.role == 2}">
                 <div class="notificationsthng-bo">Notifications/Thông báo</div>
@@ -174,7 +178,7 @@
                     <div class="view-list-of-container2">
                         <ul class="view-notifications-upload-noti list-disc text-left">
                             <li class="view-notifications hover:underline">
-                                <a href="">View list of classrooms</a></li>
+                                <a href="Admin/dashboardClassrooms">View list of classrooms</a></li>
                             <li class="hover:underline"><a href="">Add new classroom</a></li>
                         </ul>
                     </div>
@@ -321,12 +325,12 @@
                     <div class="pay-paid-items-container">
                         <ul class="register-courses-ng-k-mn list-disc">
                             <li class="register-courses hover:underline">
-                                <a href="dashboardPaments">Pay paid items / Thanh toán các khoản nộp</a>
+                                <a href="dashboardPayments">Pay paid items / Thanh toán các khoản nộp</a>
                             </li>
 
                             <li><a href="transactionHistory" class="hover:underline">Transaction history / Lịch sử giao dịch</a></li>
                             <li class="register-courses hover:underline">
-                                <a href="Student/addMoney.jsp">Add Money / Nạp tiền</a>
+                                <a href="addWallet">Add Money / Nạp tiền</a>
                             </li>
                         </ul>
                     </div>

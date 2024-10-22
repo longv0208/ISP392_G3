@@ -23,18 +23,17 @@ public class PaymentsDAO extends DBContext {
     public List<Payments> findAll() {
         List<Payments> payments = new ArrayList<>();
         String sql = "SELECT * FROM Payments";
-
         try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql); ResultSet rs = statement.executeQuery()) {
 
-            // Lặp qua kết quả truy vấn và gán giá trị cho các đối tượng Payments
             while (rs.next()) {
                 Payments payment = new Payments();
-                payment.setID(rs.getInt("ID"));
-                payment.setUserID(rs.getInt("userID"));
+                payment.setID(rs.getInt("id"));
+                payment.setUserID(rs.getInt("user_id"));
                 payment.setAmount(rs.getInt("amount"));
-                payment.setPaymentType(rs.getString("paymentType"));
+                payment.setPaymentType(rs.getString("payment_type"));
                 payments.add(payment);
             }
+            System.out.println("Payments loaded successfully: " + payments.size());
         } catch (SQLException e) {
             e.printStackTrace();
         }

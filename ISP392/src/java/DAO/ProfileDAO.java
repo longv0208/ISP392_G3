@@ -92,8 +92,11 @@ public class ProfileDAO {
                     int majorId = rs.getInt("major_id");
                     String yearOfStudy = rs.getString("year_of_study");
                     int wallet = rs.getInt("wallet");  // Lấy số dư ví
-
-                    studentProfile = new Student_Profile(student_id, majorId, yearOfStudy, wallet);
+                    studentProfile = new Student_Profile();
+                    studentProfile.setStudent_id(student_id);
+                    studentProfile.setMajor_id(majorId);
+                    studentProfile.setWallet(wallet);
+                    studentProfile.setYear_of_study(yearOfStudy);
                 }
             }
         } catch (SQLException e) {
@@ -130,4 +133,34 @@ public class ProfileDAO {
             ps.executeUpdate();
         }
     }
+
+    public Student_Profile getStudentProfileByUserId(int userId) {
+        String sql = "SELECT student_id, major_id, year_of_study, wallet FROM Student_Profile WHERE student_id = ?";
+        Student_Profile studentProfile = null;
+
+        try (Connection connection = new DBContext().getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setInt(1, userId);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                int studentId = resultSet.getInt("student_id");
+                int majorId = resultSet.getInt("major_id");
+                String yearOfStudy = resultSet.getString("year_of_study");
+                int wallet = resultSet.getInt("wallet");
+                studentProfile = new Student_Profile();
+                studentProfile.setStudent_id(studentId);
+                studentProfile.setMajor_id(majorId);
+                studentProfile.setWallet(wallet);
+                studentProfile.setYear_of_study(yearOfStudy);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return studentProfile;
+    }
+
 }

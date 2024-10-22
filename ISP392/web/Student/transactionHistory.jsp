@@ -1,5 +1,8 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page import="java.util.List"%>
 <%@page import="Model.Transactions"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -96,22 +99,22 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach var="transaction" items="${transactionList}">
-                            <tr>
-                                <td>${transaction.id}</td>
-                                <td><fmt:formatNumber value="${transaction.amount}" type="currency" currencySymbol="VND" /></td>
-                                <td>${transaction.transaction_type}</td>
-                                <td>${transaction.description}</td>
-                                <td>${transaction.transaction_date}</td>
-                            </tr>
-                        </c:forEach>
+                    <c:forEach var="transaction" items="${transactionList}">
+                        <tr>
+                            <td>${transaction.getId()}</td>
+                            <td><fmt:formatNumber value="${transaction.getAmount()}" type="currency" currencySymbol="VND" /></td>
+                        <td>${transaction.getTransaction_type()}</td>
+                        <td>${transaction.getDescription()}</td>
+                        <td>${transaction.getTransaction_date()}</td>
+                        </tr>
+                    </c:forEach>
                     </tbody>
                 </table>
             </div>
 
             <!-- Footer -->
             <div class="footer">
-                © 2024 University Academic Portal. All rights reserved.
+                Â© 2024 University Academic Portal. All rights reserved.
             </div>
         </div>
 

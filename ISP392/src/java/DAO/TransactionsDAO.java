@@ -37,4 +37,13 @@ public class TransactionsDAO extends DBContext {
         }
         return transactionList;
     }
+
+    public static void main(String[] args) {
+       new TransactionsDAO().getTransactionsByUserId(2).stream().forEach(item -> {
+           System.out.println(item.getAmount());
+        });
+    }
+    public void insertTransaction(Transactions transaction) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

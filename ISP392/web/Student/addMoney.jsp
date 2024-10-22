@@ -132,7 +132,7 @@
             <!-- Deposit form -->
             <div class="deposit-form">
                 <!-- Form to submit to VNPayServlet for processing -->
-                <form action="${pageContext.request.contextPath}/VNPayServlet" method="post" id="moneyForm">
+                <form action="${pageContext.request.contextPath}/addWallet" method="post" id="moneyForm">
                     <table class="table table-bordered">
                         <thead>
                             <tr>

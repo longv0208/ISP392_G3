@@ -95,11 +95,7 @@ public class VNPResponeController extends HttpServlet {
         );
 
         // Thêm giao dịch vào database
-        try {
-            transactionsDAO.insertTransaction(transaction);
-        } catch (SQLException ex) {
-            Logger.getLogger(VNPResponeController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        transactionsDAO.insertTransaction(transaction);
 
         // Chuyển hướng về trang chủ hoặc trang thành công
         response.sendRedirect("home");

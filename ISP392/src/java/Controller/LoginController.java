@@ -46,6 +46,7 @@ public class LoginController extends HttpServlet {
             } else {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", login.getId());
+                System.out.println(login.getId());
                 if (login.getRole().equals("student")) {
                     session.setAttribute("role", 1);
                 } else if (login.getRole().equals("lecturer")) {

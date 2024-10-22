@@ -51,7 +51,7 @@ public class HomeControl extends HttpServlet {
             }
             
             Student_Profile st_profile;
-            List<Notifications> notifications = dao.getNotificationsByRole(role); // Thay "admin" bằng role bạn muốn lấy
+//            List<Notifications> notifications = dao.getNotificationsByRole(role); // Thay "admin" bằng role bạn muốn lấy
             if (role.equals("student")) {
                 Profile profile = pdao.getProfileById(session);
                 st_profile = pdao.getStudentProfile(session);
@@ -64,7 +64,7 @@ public class HomeControl extends HttpServlet {
                 request.setAttribute("profile", profile);
             }
             // Gán danh sách thông báo vào request
-            request.setAttribute("notifications", notifications);
+//            request.setAttribute("notifications", notifications);
             //            
             request.getRequestDispatcher("homepage.jsp").forward(request, response);
         }

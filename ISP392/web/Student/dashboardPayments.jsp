@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
+
 <html lang="en">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -98,89 +104,103 @@
                 <a class="navbar-brand" href="#">University Academic Portal</a>
             </div>
         </nav>
+        <div class="container">
+            <!-- Error Message Display -->
+            <c:if test="${not empty error}">
+                <div class="alert alert-danger" role="alert">
+                    ${error}
+                </div>
+            </c:if>
 
-        <!-- Main content -->
-        <div class="main-content">
-            <h2>Choose Paid Items</h2>
+            <!-- Main content -->
+            <div class="main-content">
+                <h2>Choose Paid Items</h2>
 
-            <!-- Account balance display -->
-            <div class="account-balance">
-                Account balance: 0<fmt:formatNumber value="${studentProfile.wallet}" minFractionDigits="0" /> VND
+                <!-- Account balance display -->
+                <div class="account-balance">
+                    Account balance: <fmt:formatNumber value="${studentProfile.wallet}" minFractionDigits="0" /> VND
+                </div>
+
+                <!-- Payment Table -->
+                <form action="${pageContext.request.contextPath}/dashboardPayments" method="post">
+                    <input type="hidden" name="action" value="pay">
+                    <input type="hidden" id="totalAmount" name="totalAmount" value="0"> 
+
+                    <div class="table-responsive">
+                        <table id="paymentTable" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Fee type</th>
+                                    <th>Amount (VND)</th>
+                                    <th>Select</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach items="${requestScope.listPayments}" var="p">
+                                    <tr>
+                                        <td>${p.getID()}</td>
+                                        <td>${p.paymentType}</td>
+                                        <td>${p.amount}</td>
+                                        <td>
+                                            <input 
+                                                type="checkbox" 
+                                                class="checkbox" 
+                                                name="payment" 
+                                                value="${p.amount}" 
+                                                <c:if test="${not empty selectedPayments and fn:contains(selectedPayments, p.amount)}">checked</c:if> 
+                                                    onclick="updateTotal()">
+                                            </td>
+                                        </tr>
+                                </c:forEach>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Total Amount -->
+                    <div class="total-amount">
+                        Total amount:<span id="total">0</span> VND
+                    </div>
+
+                    <!-- Pay Button -->
+                    <button type="submit" class="pay-btn" id="payButton" disabled>Pay choosed items</button>
+                </form>
+
             </div>
 
-            <!-- Payment Table -->
-            <form action="${pageContext.request.contextPath}/dashboardPayments" method="post">
-                <input type="hidden" name="action" value="pay">
-                <input type="hidden" id="totalAmount" name="totalAmount" value="0"> <!-- Hidden total amount -->
+            <!-- Bootstrap JS -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+            <script>
+                                                        $(document).ready(function () {
+                                                            $('#paymentTable').DataTable({
+                                                                "paging": false, // Disable pagination
+                                                                "searching": false, // Disable search
+                                                                "ordering": false, // Disable ordering
+                                                                "info": false       // Disable page info
+                                                            });
+                                                        });
 
-                <div class="table-responsive">
-                    <table id="paymentTable" class="table table-striped table-bordered">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Fee type</th>
-                                <th>Amount (VND)</th>
-                                <th>Select</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach items="${listPayments}" var="p">
-                            <tr>
-                                <td>${p.getID()}</td>
-                                <td>${p.paymentType()}</td>
-                                <td>${p.amount()}</td>
-                                <td><input type="checkbox" class="checkbox" name="payment" value="${p.amount}" onclick="updateTotal()"></td>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
-                </div>
+                                                        // Update total payable amount based on selected items
+                                                        function updateTotal() {
+                                                            let checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                                                            let total = 0;
+                                                            let isAnyChecked = false;
 
-                <!-- Total Amount -->
-                <div class="total-amount">
-                    Total amount:<span id="total">0</span> VND
-                </div>
+                                                            checkboxes.forEach((checkbox) => {
+                                                                if (checkbox.checked && !isNaN(checkbox.value)) {
+                                                                    total += parseInt(checkbox.value);
+                                                                    isAnyChecked = true; // At least one item is selected
+                                                                }
+                                                            });
 
-                <!-- Pay Button -->
-                <button type="submit" class="pay-btn" id="payButton" disabled>Pay choosed items</button>
-            </form>
+                                                            document.getElementById('total').innerText = total.toLocaleString();
+                                                            document.getElementById('totalAmount').value = total;
 
-        </div>
-
-        <!-- Bootstrap JS -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-
-
-        <script>
-                                    $(document).ready(function () {
-                                        $('#paymentTable').DataTable({
-                                            "paging": false, // Disable pagination
-                                            "searching": false, // Disable search
-                                            "ordering": false, // Disable ordering
-                                            "info": false       // Disable page info
-                                        });
-                                    });
-
-                                    // Update total payable amount based on selected items
-                                    function updateTotal() {
-                                        let checkboxes = document.querySelectorAll('input[type="checkbox"]');
-                                        let total = 0;
-                                        let isAnyChecked = false;
-
-                                        checkboxes.forEach((checkbox) => {
-                                            if (checkbox.checked && !isNaN(checkbox.value)) {
-                                                total += parseInt(checkbox.value);
-                                                isAnyChecked = true; // At least one item is selected
-                                            }
-                                        });
-
-                                        document.getElementById('total').innerText = total.toLocaleString();
-                                        document.getElementById('totalAmount').value = total;
-
-                                        // Disable the Pay button if no items are selected or total is zero
-                                        document.getElementById('payButton').disabled = !isAnyChecked || total === 0;
-                                    }
-        </script>
+                                                            // Disable the Pay button if no items are selected or total is zero
+                                                            document.getElementById('payButton').disabled = !isAnyChecked || total === 0;
+                                                        }
+            </script>
 
 
     </body>

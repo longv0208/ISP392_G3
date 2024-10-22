@@ -24,6 +24,10 @@
         <servlet-name>TransactionHistory</servlet-name>
         <servlet-class>Controller.Student.TransactionHistory</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddWalletController</servlet-name>
+        <servlet-class>Controller.Student.AddWalletController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LogOutControl</servlet-name>
         <url-pattern>/logout</url-pattern>
@@ -81,7 +85,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>DashboardPayments</servlet-name>
-        <url-pattern>/dashboardPaments</url-pattern>
+        <url-pattern>/dashboardPayments</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>VNPayServlet</servlet-name>
@@ -91,7 +95,11 @@
         <servlet-name>TransactionHistory</servlet-name>
         <url-pattern>/transactionHistory</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddWalletController</servlet-name>
+        <url-pattern>/addWallet</url-pattern>
+    </servlet-mapping>
     <session-config>
-        <session-timeout>15</session-timeout>
+        <session-timeout>30</session-timeout>
     </session-config>
 </web-app>
