@@ -49,9 +49,13 @@ public class DashboardClassrooms extends HttpServlet {
                 break;
             case "edit":
                 editClassroom(request, response);
-                response.sendRedirect("dashboardClassrooms");  
+                response.sendRedirect("dashboardClassrooms");
                 break;
             case "delete":
+                deleteClassroom(request, response);
+                response.sendRedirect("dashboardClassrooms");
+                break;
+            case "viewDetail":
                 deleteClassroom(request, response);
                 response.sendRedirect("dashboardClassrooms");
                 break;
@@ -93,5 +97,5 @@ public class DashboardClassrooms extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
         classroomsDAO.deleteById(id);
     }
-    
+
 }

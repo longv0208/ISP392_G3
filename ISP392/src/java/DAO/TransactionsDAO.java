@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.SQLException;
 
 public class TransactionsDAO extends DBContext {
 
@@ -16,7 +17,7 @@ public class TransactionsDAO extends DBContext {
         List<Transactions> transactionList = new ArrayList<>();
 
         String sql = "SELECT * FROM Transactions WHERE user_id = ?";
-        
+
         try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, userId);
             ResultSet rs = ps.executeQuery();
@@ -39,11 +40,20 @@ public class TransactionsDAO extends DBContext {
     }
 
     public static void main(String[] args) {
-       new TransactionsDAO().getTransactionsByUserId(2).stream().forEach(item -> {
-           System.out.println(item.getAmount());
+        new TransactionsDAO().getTransactionsByUserId(2).stream().forEach(item -> {
+            System.out.println(item.getAmount());
         });
     }
-    public void insertTransaction(Transactions transaction) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
+    public void recordTransaction(int userId, int paymentAmount) {
+        String sql = "INSERT INTO Transactions (userId, paymentAmount, transactionDate) VALUES (?, ?, GETDATE())";
+        try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, userId);
+            stmt.setInt(2, paymentAmount);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
+
 }

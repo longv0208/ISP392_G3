@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <html lang="en">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -116,7 +120,7 @@
                             <td>${classroom.getcapacity()}</td>
                             <td>
                                 <button class="btn btn-update action-btn" data-classroom-id="${classroom.getID()}">Update</button>
-                                <button class="btn btn-delete action-btn" onclick="deleteClassroomModal(this)" data-toggle="modal" data-target="#deleteClassroomModal">Xóa</button>
+                                <button class="btn btn-delete action-btn" onclick="deleteClassroomModal(this)" data-toggle="modal" data-target="#deleteClassroomModal">XÃ³a</button>
                             </td>
                         </tr>
                     </c:forEach>
@@ -131,14 +135,14 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
         <script>
-        $(document).ready(function () {
-            $('#classroomTable').DataTable({
-                "paging": true, // Enable pagination
-                "searching": true, // Enable search
-                "ordering": true, // Enable ordering
-                "info": true       // Show page info
-            });
-        });
+                                    $(document).ready(function () {
+                                        $('#classroomTable').DataTable({
+                                            "paging": true, // Enable pagination
+                                            "searching": true, // Enable search
+                                            "ordering": true, // Enable ordering
+                                            "info": true       // Show page info
+                                        });
+                                    });
         </script>
 
     </body>

@@ -20,34 +20,45 @@ import java.util.List;
  */
 public class PaymentsDAO extends DBContext {
 
-    public List<Payments> findAll() {
+    public List<Payments> findPendingPayments(int userID) {
         List<Payments> payments = new ArrayList<>();
-        String sql = "SELECT * FROM Payments";
-        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql); ResultSet rs = statement.executeQuery()) {
-
-            while (rs.next()) {
-                Payments payment = new Payments();
-                payment.setID(rs.getInt("id"));
-                payment.setUserID(rs.getInt("user_id"));
-                payment.setAmount(rs.getInt("amount"));
-                payment.setPaymentType(rs.getString("payment_type"));
-                payments.add(payment);
+        String sql = "SELECT * FROM Payments WHERE user_id = ? AND status = 'Pending'";
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, userID);
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    Payments payment = new Payments();
+                    payment.setID(rs.getInt("id"));
+                    payment.setUserID(rs.getInt("user_id"));
+                    payment.setAmount(rs.getInt("amount"));
+                    payment.setPaymentType(rs.getString("payment_type"));
+                    payment.setStatus(rs.getString("status"));
+                    payments.add(payment);
+                }
             }
-            System.out.println("Payments loaded successfully: " + payments.size());
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return payments;
     }
 
-    public void recordPayment(int userID, int amount) {
-        String sql = "INSERT INTO Payments (userID, amount, paymentDate, paymentType) VALUES (?, ?, NOW(), 'online')";
+    public static void main(String[] args) {
+        // Khởi tạo đối tượng PaymentsDAO
+        PaymentsDAO paymentsDAO = new PaymentsDAO();
 
+        // Thiết lập một paymentID và trạng thái để kiểm tra
+        int id = 5; // Thay bằng ID hợp lệ từ cơ sở dữ liệu của bạn
+        String newStatus = "Paid Successfully";
+
+        // Gọi phương thức updatePaymentStatus và kiểm tra kết quả
+        paymentsDAO.updatePaymentStatus(id, newStatus);
+    }
+
+    public void updatePaymentStatus(int id, String status) {
+        String sql = "UPDATE Payments SET status = ? WHERE id = ?";
         try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
-
-            statement.setInt(1, userID);
-            statement.setInt(2, amount);
+            statement.setString(1, status);
+            statement.setInt(2, id);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

@@ -2,6 +2,7 @@ package Controller.Student;
 
 import DAO.PaymentsDAO;
 import DAO.ProfileDAO;
+import DAO.TransactionsDAO;
 import Model.Payments;
 import Model.Student_Profile;
 import Model.User;
@@ -37,11 +38,8 @@ public class DashboardPayments extends HttpServlet {
             studentProfile = profileDAO.getStudentProfile(session);
             session.setAttribute("studentProfile", studentProfile);  // Lưu vào session nếu cần dùng lại
         }
-
-        List<Payments> listPayments = paymentsDAO.findAll();
-        for (Payments payment : listPayments) {
-            System.out.println("PaymentId: " + payment.getID());
-        }
+        // Chỉ lấy các khoản thanh toán có trạng thái Pending cho người dùng
+        List<Payments> listPayments = paymentsDAO.findPendingPayments(idUser);
         request.setAttribute("listPayments", listPayments);
 
         int wallet = studentProfile.getWallet();
@@ -66,46 +64,62 @@ public class DashboardPayments extends HttpServlet {
     private void pay(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         int idUser = (Integer) session.getAttribute("user");
+
         if (idUser < 0) {
+            // Nếu người dùng chưa đăng nhập, chuyển hướng đến trang đăng nhập
             response.sendRedirect(request.getContextPath() + "/authen?action=login");
             return;
         }
 
-        PaymentsDAO paymentsDAO = new PaymentsDAO();
-
+        // Lấy thông tin người dùng
         Student_Profile studentProfile = (Student_Profile) session.getAttribute("studentProfile");
         if (studentProfile == null) {
             studentProfile = profileDAO.getStudentProfile(session);
         }
 
+        // Lấy danh sách các khoản thanh toán "Pending"
+        List<Payments> listPayments = paymentsDAO.findPendingPayments(idUser);
+        request.setAttribute("listPayments", listPayments);
+        request.setAttribute("studentProfile", studentProfile);
+
+        // Lấy tổng số tiền từ biểu mẫu
         int totalAmount = Integer.parseInt(request.getParameter("totalAmount"));
 
+        // Kiểm tra số dư ví
         int wallet = studentProfile.getWallet();
-
         String[] selectedPayments = request.getParameterValues("payment");
 
         if (wallet >= totalAmount) {
+            // Số dư đủ, tiến hành trừ số dư và ghi lại vào database
             studentProfile.setWallet(wallet - totalAmount);
 
-            paymentsDAO.recordPayment(idUser, totalAmount);
-
-            session.setAttribute("studentProfile", studentProfile);
-
+            // Cập nhật ví vào cơ sở dữ liệu
             try {
                 profileDAO.updateStudentProfile(studentProfile);
+
+                // Ghi lại giao dịch vào lịch sử
+                TransactionsDAO transactionsDAO = new TransactionsDAO();
+                for (String paymentId : selectedPayments) {
+                    // Cập nhật trạng thái thanh toán thành "Paid Successfully"
+                    paymentsDAO.updatePaymentStatus(Integer.parseInt(paymentId), "Paid Successfully");
+
+                    // Ghi lại lịch sử giao dịch
+                    transactionsDAO.recordTransaction(idUser, Integer.parseInt(paymentId));
+                }
+
+                // Cập nhật lại session và chuyển hướng đến trang thanh toán thành công
+                session.setAttribute("studentProfile", studentProfile);
+                response.sendRedirect(request.getContextPath() + "/Student/dashboardPayments.jsp?success=true");
+
             } catch (SQLException e) {
                 e.printStackTrace();
-                request.setAttribute("error", "Failed to update wallet information.");
+                request.setAttribute("error", "Có lỗi xảy ra khi cập nhật ví.");
                 request.getRequestDispatcher("Student/dashboardPayments.jsp").forward(request, response);
-                return;
             }
-
-            response.sendRedirect(request.getContextPath() + "/Student/dashboardPayments.jsp?success=true");
         } else {
-            request.setAttribute("error", "Your wallet balance is insufficient to complete the payment.");
-
+            // Số dư không đủ, báo lỗi và chuyển lại dữ liệu
+            request.setAttribute("error", "Số dư trong ví không đủ để thanh toán.");
             request.setAttribute("selectedPayments", selectedPayments);
-
             request.getRequestDispatcher("Student/dashboardPayments.jsp").forward(request, response);
         }
     }

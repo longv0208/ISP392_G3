@@ -26,4 +26,5 @@ public class Payments {
     private int amount;
     private Date paymentDate;
     private String paymentType;
+    private String status;
 }
