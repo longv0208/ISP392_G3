@@ -99,7 +99,7 @@
         <!-- Navbar -->
         <nav class="navbar navbar-expand-lg">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">University Academic Portal</a>
+                <a class="navbar-brand" href="home">University Academic Portal</a>
             </div>
         </nav>
         <div class="container">
@@ -111,12 +111,11 @@
             </c:if>
 
             <!-- Thông báo thành công -->
-            <c:if test="${param.success eq 'true'}">
+            <c:if test="${not empty success}">
                 <div class="alert alert-success" role="alert">
-                    Thanh toán thành công!
+                    ${success}
                 </div>
             </c:if>
-
             <!-- Main content -->
             <div class="main-content">
                 <h2>Choose Paid Items</h2>
@@ -146,10 +145,13 @@
                                         <td>${payment.paymentType}</td>
                                         <td>${payment.amount}</td>
                                         <td>
-                                            <input type="checkbox" name="payment" value="${payment.amount}" onclick="updateTotal()">
+                                            <input type="checkbox" name="payment" value="${payment.ID}" data-amount="${payment.amount}" onclick="updateTotal()">
                                         </td>
                                     </tr>
                                 </c:forEach>
+
+
+
 
                             </tbody>
                         </table>
@@ -169,34 +171,39 @@
             <!-- Bootstrap JS -->
             <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
             <script>
-                $(document).ready(function () {
-                    $('#paymentTable').DataTable({
-                        "paging": false, // Disable pagination
-                        "searching": false, // Disable search
-                        "ordering": false, // Disable ordering
-                        "info": false       // Disable page info
-                    });
-                });
+                                                $(document).ready(function () {
+                                                    $('#paymentTable').DataTable({
+                                                        "paging": false, // Disable pagination
+                                                        "searching": false, // Disable search
+                                                        "ordering": false, // Disable ordering
+                                                        "info": false       // Disable page info
+                                                    });
+                                                });
 
-                // Update total payable amount based on selected items
-                function updateTotal() {
-                    let checkboxes = document.querySelectorAll('input[type="checkbox"]');
-                    let total = 0;
-                    let isAnyChecked = false;
+                                                // Update total payable amount based on selected items
+                                                function updateTotal() {
+                                                    let checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                                                    let total = 0;
+                                                    let isAnyChecked = false;
 
-                    checkboxes.forEach((checkbox) => {
-                        if (checkbox.checked && !isNaN(checkbox.value)) {
-                            total += parseInt(checkbox.value);
-                            isAnyChecked = true; // At least one item is selected
-                        }
-                    });
+                                                    checkboxes.forEach((checkbox) => {
+                                                        if (checkbox.checked) {
+                                                            let amount = checkbox.getAttribute("data-amount");
+                                                            if (!isNaN(amount)) {
+                                                                total += parseInt(amount);
+                                                                isAnyChecked = true;
+                                                            }
+                                                        }
+                                                    });
 
-                    document.getElementById('total').innerText = total.toLocaleString();
-                    document.getElementById('totalAmount').value = total;
+                                                    document.getElementById('total').innerText = total.toLocaleString();
+                                                    document.getElementById('totalAmount').value = total;
 
-                    // Disable the Pay button if no items are selected or total is zero
-                    document.getElementById('payButton').disabled = !isAnyChecked || total === 0;
-                }
+                                                    // Disable the Pay button if no items are selected or total is zero
+                                                    document.getElementById('payButton').disabled = !isAnyChecked || total === 0;
+                                                }
+
+
             </script>
 
 

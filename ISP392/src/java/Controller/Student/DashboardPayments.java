@@ -30,8 +30,19 @@ public class DashboardPayments extends HttpServlet {
 
         HttpSession session = request.getSession();
         int idUser = (Integer) session.getAttribute("user");
-        System.out.println(idUser);
-        System.out.println("Đã lấy đc session");
+
+        // Kiểm tra nếu có lỗi từ session
+        String errorMessage = (String) session.getAttribute("error");
+        if (errorMessage != null) {
+            request.setAttribute("error", errorMessage);
+            session.removeAttribute("error"); // Xóa lỗi sau khi hiển thị
+        }
+        // Kiểm tra nếu có thông báo thành công từ session
+        String successMessage = (String) session.getAttribute("success");
+        if (successMessage != null) {
+            request.setAttribute("success", successMessage);
+            session.removeAttribute("success"); // Xóa thông báo thành công sau khi hiển thị
+        }
 
         Student_Profile studentProfile = (Student_Profile) request.getAttribute("profile");
         if (studentProfile == null) {
@@ -79,7 +90,6 @@ public class DashboardPayments extends HttpServlet {
 
         // Lấy danh sách các khoản thanh toán "Pending"
         List<Payments> listPayments = paymentsDAO.findPendingPayments(idUser);
-        request.setAttribute("listPayments", listPayments);
         request.setAttribute("studentProfile", studentProfile);
 
         // Lấy tổng số tiền từ biểu mẫu
@@ -100,16 +110,23 @@ public class DashboardPayments extends HttpServlet {
                 // Ghi lại giao dịch vào lịch sử
                 TransactionsDAO transactionsDAO = new TransactionsDAO();
                 for (String paymentId : selectedPayments) {
-                    // Cập nhật trạng thái thanh toán thành "Paid Successfully"
-                    paymentsDAO.updatePaymentStatus(Integer.parseInt(paymentId), "Paid Successfully");
+                    // Lấy thông tin payment từ bảng Payments
+                    Payments payment = paymentsDAO.findPaymentById(Integer.parseInt(paymentId));
 
-                    // Ghi lại lịch sử giao dịch
-                    transactionsDAO.recordTransaction(idUser, Integer.parseInt(paymentId));
+                    if (payment != null) {
+                        // Cập nhật trạng thái thanh toán thành "Paid Successfully"
+                        paymentsDAO.updatePaymentStatus(payment.getID(), "Paid Successfully");
+
+                        // Ghi lại lịch sử giao dịch với payment_type
+                        transactionsDAO.recordTransaction(idUser, payment.getID(), payment.getAmount(), payment.getPaymentType());
+                    }
                 }
+                // Đặt thông báo thành công vào session
+                session.setAttribute("success", "Thanh toán thành công!");
 
                 // Cập nhật lại session và chuyển hướng đến trang thanh toán thành công
                 session.setAttribute("studentProfile", studentProfile);
-                response.sendRedirect(request.getContextPath() + "/Student/dashboardPayments.jsp?success=true");
+                response.sendRedirect(request.getContextPath() + "/dashboardPayments");
 
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -117,10 +134,11 @@ public class DashboardPayments extends HttpServlet {
                 request.getRequestDispatcher("Student/dashboardPayments.jsp").forward(request, response);
             }
         } else {
-            // Số dư không đủ, báo lỗi và chuyển lại dữ liệu
-            request.setAttribute("error", "Số dư trong ví không đủ để thanh toán.");
-            request.setAttribute("selectedPayments", selectedPayments);
-            request.getRequestDispatcher("Student/dashboardPayments.jsp").forward(request, response);
+            // Số dư không đủ, đặt thuộc tính lỗi vào session để thông báo khi chuyển về servlet
+            session.setAttribute("error", "Số dư trong ví không đủ để thanh toán.");
+
+            // Chuyển hướng về servlet xử lý hiển thị trang thanh toán (dashboardPayments)
+            response.sendRedirect(request.getContextPath() + "/dashboardPayments");
         }
     }
 

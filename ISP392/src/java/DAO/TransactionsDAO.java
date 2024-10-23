@@ -45,11 +45,12 @@ public class TransactionsDAO extends DBContext {
         });
     }
 
-    public void recordTransaction(int userId, int paymentAmount) {
-        String sql = "INSERT INTO Transactions (userId, paymentAmount, transactionDate) VALUES (?, ?, GETDATE())";
+    public void recordTransaction(int userId, int paymentId, int paymentAmount, String paymentType) {
+        String sql = "INSERT INTO Transactions (user_id, amount, transaction_date, transaction_type) VALUES (?, ?, GETDATE(), ?)";
         try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, userId);
             stmt.setInt(2, paymentAmount);
+            stmt.setString(3, paymentType); // Thêm transaction_type từ payment_type
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

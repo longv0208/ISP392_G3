@@ -78,7 +78,7 @@
         <!-- Navbar -->
         <nav class="navbar navbar-expand-lg">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">University Academic Portal</a>
+                <a class="navbar-brand" href="home">University Academic Portal</a>
             </div>
         </nav>
 
@@ -94,7 +94,6 @@
                             <th>Transaction ID</th>
                             <th>Amount (VND)</th>
                             <th>Transaction Type</th>
-                            <th>Description</th>
                             <th>Date</th>
                         </tr>
                     </thead>
@@ -102,9 +101,8 @@
                     <c:forEach var="transaction" items="${transactionList}">
                         <tr>
                             <td>${transaction.getId()}</td>
-                            <td><fmt:formatNumber value="${transaction.getAmount()}" type="currency" currencySymbol="VND" /></td>
+                            <td><fmt:formatNumber value="${transaction.getAmount()}"  /></td>
                         <td>${transaction.getTransaction_type()}</td>
-                        <td>${transaction.getDescription()}</td>
                         <td>${transaction.getTransaction_date()}</td>
                         </tr>
                     </c:forEach>

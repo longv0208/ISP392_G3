@@ -65,6 +65,25 @@ public class PaymentsDAO extends DBContext {
         }
     }
 
+    public Payments findPaymentById(int paymentId) {
+        String sql = "SELECT * FROM Payments WHERE id = ?";
+        try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, paymentId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                Payments payment = new Payments();
+                payment.setID(rs.getInt("id"));
+                payment.setUserID(rs.getInt("user_id"));
+                payment.setAmount(rs.getInt("amount"));
+                payment.setPaymentType(rs.getString("payment_type"));
+                return payment;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public void addMoney(int userID, BigDecimal amount) throws SQLException {
         String sql = "UPDATE Wallet SET balance = balance + ? WHERE userID = ?";
 

@@ -92,11 +92,36 @@ public class ClassroomsDAO extends DBContext {
             return 0;
         }
     }
- public static void main(String[] args) {
+
+    public static void main(String[] args) {
         ClassroomsDAO dao = new ClassroomsDAO();
         dao.findAll().stream().forEach(item -> {
             System.out.println(item);
         });
-                
+
     }
+
+    public Classrooms findById(int id) {
+        String sql = "SELECT * FROM Classrooms WHERE ID = ?";
+        Classrooms classroom = null;
+
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, id);
+
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    classroom = new Classrooms();
+                    classroom.setID(rs.getInt("ID"));
+                    classroom.setName(rs.getString("name"));
+                    classroom.setCapacity(rs.getInt("capacity"));
+                    classroom.setLocation(rs.getString("location"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return classroom;
+    }
+
 }

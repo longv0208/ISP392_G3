@@ -1,8 +1,9 @@
+<!DOCTYPE html>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap" rel="stylesheet">
 <link rel="icon" href="${pageContext.request.contextPath}/assets/img/logo/logo100.jpg" sizes="32x32">
 <style>
     body {
@@ -18,7 +19,6 @@
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-
             </div>
             <div class="modal-body">
                 <form id="addClassroomForm" action="dashboardClassrooms?action=add" method="POST">
@@ -49,7 +49,6 @@
                 </form>
             </div>
             <div class="modal-footer">
-<!--                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button     >-->
                 <button type="button" class="btn btn-primary" onclick="validateClassroomForm()">Add</button>
             </div>
         </div>
@@ -82,9 +81,23 @@
             hasError = true;
         }
 
-        // Submit form if there are no errors
+        // Check classroom name via AJAX
         if (!hasError) {
-            $('#addClassroomForm').submit();
+            $.ajax({
+                url: 'dashboardClassrooms?action=checkClassroomName',
+                method: 'POST',
+                data: {classroomname: name},
+                success: function (response) {
+                    if (response.trim() === 'exists') {
+                        $('#classroomNameError').html('Classroom name already exists.');
+                    } else {
+                        $('#addClassroomForm').submit();
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('AJAX Error:', error);
+                }
+            });
         }
     }
 </script>
